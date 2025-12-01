@@ -1,6 +1,7 @@
+// backend/routes/auth.js
 const express = require("express");
 const dotenv = require("dotenv");
-const { createOAuthClient } = require('../services/authServices');
+const { createOAuthClient } = require("../services/authServices");
 const User = require("../models/User");
 
 dotenv.config();
@@ -56,7 +57,7 @@ router.get("/oauth2callback", async (req, res) => {
 
     req.session.userId = user._id.toString();
 
-    // After backend login, redirect to frontend app dashboard route (adjust)
+    // Redirect to frontend dashboard
     res.redirect("http://localhost:5173/dashboard");
   } catch (err) {
     console.error("OAuth callback error:", err);
@@ -64,10 +65,23 @@ router.get("/oauth2callback", async (req, res) => {
   }
 });
 
+// GET /api/me
 router.get("/me", async (req, res) => {
   if (!req.session.userId) return res.status(401).json({ error: "Not authenticated" });
   const user = await User.findById(req.session.userId).select("-oauth.refresh_token");
   res.json(user);
+});
+
+// POST /api/auth/logout
+router.post("/auth/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Session destroy error:", err);
+      return res.status(500).json({ error: "Logout failed" });
+    }
+    res.clearCookie("connect.sid", { path: "/" });
+    res.json({ ok: true });
+  });
 });
 
 module.exports = router;
