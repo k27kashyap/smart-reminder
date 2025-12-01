@@ -30,13 +30,13 @@ export default function Home() {
       title: "Smart Detection",
       description: "AI-powered extraction of dates, companies, and application details"
     },
+    // {
+    //   icon: "🔔",
+    //   title: "Timely Reminders",
+    //   description: "Get notified before deadlines so you never miss an opportunity"
+    // },
     {
-      icon: "🔔",
-      title: "Timely Reminders",
-      description: "Get notified before deadlines so you never miss an opportunity"
-    },
-    {
-      icon: "📊",
+      icon: "📅",
       title: "Organized Dashboard",
       description: "View all your tasks in one place with upcoming, completed, and missed sections"
     }
