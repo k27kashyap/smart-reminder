@@ -1,4 +1,3 @@
-// backend/routes/auth.js
 const express = require("express");
 const dotenv = require("dotenv");
 const { createOAuthClient } = require("../services/authServices");
@@ -26,7 +25,6 @@ router.get("/oauth2callback", async (req, res) => {
     const { tokens } = await client.getToken(code);
     client.setCredentials(tokens);
 
-    // extract user info from id_token
     const ticket = await client.verifyIdToken({
       idToken: tokens.id_token,
       audience: process.env.GOOGLE_CLIENT_ID
@@ -57,7 +55,6 @@ router.get("/oauth2callback", async (req, res) => {
 
     req.session.userId = user._id.toString();
 
-    // Redirect to frontend dashboard
     res.redirect("http://localhost:5173/dashboard");
   } catch (err) {
     console.error("OAuth callback error:", err);
@@ -65,14 +62,12 @@ router.get("/oauth2callback", async (req, res) => {
   }
 });
 
-// GET /api/me
 router.get("/me", async (req, res) => {
   if (!req.session.userId) return res.status(401).json({ error: "Not authenticated" });
   const user = await User.findById(req.session.userId).select("-oauth.refresh_token");
   res.json(user);
 });
 
-// POST /api/auth/logout
 router.post("/auth/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {

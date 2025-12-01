@@ -22,7 +22,6 @@ async function getOAuthClientForUser(userId) {
     expiry_date: user.oauth.expiry_date
   });
 
-  // googleapis will auto-refresh if refresh_token present
   return { client, user };
 }
 

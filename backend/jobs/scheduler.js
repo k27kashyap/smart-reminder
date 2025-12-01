@@ -5,25 +5,21 @@ const { sendPushToUser } = require("../services/pushService");
 const { markMissedWherePast } = require("../services/reminderService");
 
 function startScheduler() {
-  console.log("⏰ Scheduler started");
+  console.log("Scheduler started");
 
-  // Every minute
   cron.schedule("* * * * *", async () => {
     const now = new Date();
 
     try {
-      // 1) Mark missed
       await markMissedWherePast();
 
-      // 2) Send upcoming notifications
       const users = await User.find({ "pushSubscriptions.0": { $exists: true } });
 
       for (const user of users) {
         const offsets = user.preferences.notifyOffsetsSeconds || [];
         if (offsets.length === 0) continue;
 
-        // compute time windows for this minute
-        const windowStart = new Date(now.getTime() - 60 * 1000); // last minute
+        const windowStart = new Date(now.getTime() - 60 * 1000);
         const windowEnd = now;
 
         const orConditions = offsets.map((sec) => {

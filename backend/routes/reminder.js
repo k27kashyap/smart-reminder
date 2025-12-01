@@ -1,4 +1,3 @@
-// backend/routes/reminders.js
 const express = require("express");
 const {
   listRemindersByFilter,
@@ -11,7 +10,6 @@ const {
 
 const router = express.Router();
 
-// GET /api/reminders?filter=upcoming|completed|missed
 router.get("/reminders", async (req, res) => {
   try {
     const filter = req.query.filter || "upcoming";
@@ -24,13 +22,11 @@ router.get("/reminders", async (req, res) => {
   }
 });
 
-// POST /api/reminders  (create manual)
 router.post("/reminders", async (req, res) => {
   try {
     const userId = req.session.userId;
     const payload = req.body;
 
-    // Validate required
     if (!payload.subject || !payload.detectedDate) {
       return res.status(400).json({ error: "subject and detectedDate are required" });
     }
@@ -43,7 +39,6 @@ router.post("/reminders", async (req, res) => {
   }
 });
 
-// PUT /api/reminders/:id  (update)
 router.put("/reminders/:id", async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -58,7 +53,6 @@ router.put("/reminders/:id", async (req, res) => {
   }
 });
 
-// POST /api/reminders/:id/complete
 router.post("/reminders/:id/complete", async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -71,7 +65,6 @@ router.post("/reminders/:id/complete", async (req, res) => {
   }
 });
 
-// POST /api/reminders/:id/uncomplete  (revert completed -> upcoming)
 router.post("/reminders/:id/uncomplete", async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -84,7 +77,6 @@ router.post("/reminders/:id/uncomplete", async (req, res) => {
   }
 });
 
-// POST /api/reminders/:id/snooze { snoozeTo }
 router.post("/reminders/:id/snooze", async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -101,7 +93,6 @@ router.post("/reminders/:id/snooze", async (req, res) => {
   }
 });
 
-// DELETE /api/reminders/:id
 router.delete("/reminders/:id", async (req, res) => {
   try {
     const userId = req.session.userId;

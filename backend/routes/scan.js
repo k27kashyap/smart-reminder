@@ -3,7 +3,6 @@ const { scanForUser } = require("../services/gmailService");
 
 const router = express.Router();
 
-// POST /api/scan { unreadOnly?: boolean }
 router.post("/scan", async (req, res) => {
   try {
     const unreadOnly = !!req.body.unreadOnly;

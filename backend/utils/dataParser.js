@@ -1,5 +1,3 @@
-// Simple helpers; we can improve later as you see more email formats
-
 function normalizeSubject(subject = "") {
   return subject
     .toLowerCase()
@@ -10,7 +8,6 @@ function normalizeSubject(subject = "") {
 function extractCompany(subject = "") {
   const norm = normalizeSubject(subject);
   const parts = norm.split(" - ");
-  // First chunk treated as company
   return (parts[0] || norm).toUpperCase();
 }
 
@@ -30,7 +27,7 @@ function extractLinks(text = "") {
   while ((match = regex.exec(text)) !== null) {
     links.push(match[1]);
   }
-  return [...new Set(links)]; // unique
+  return [...new Set(links)];
 }
 
 module.exports = {

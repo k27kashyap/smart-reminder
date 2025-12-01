@@ -3,7 +3,6 @@ const { saveSubscription, removeSubscription } = require("../services/pushServic
 
 const router = express.Router();
 
-// POST /api/push/register { subscription }
 router.post("/push/register", async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -18,7 +17,6 @@ router.post("/push/register", async (req, res) => {
   }
 });
 
-// POST /api/push/unregister { endpoint }
 router.post("/push/unregister", async (req, res) => {
   try {
     const userId = req.session.userId;

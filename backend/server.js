@@ -16,20 +16,18 @@ const startScheduler = require("./jobs/scheduler");
 
 const app = express();
 
-// ----- DB CONNECTION -----
 mongoose
   .connect(process.env.MONGO_URI, { dbName: "vit-reminder" })
-  .then(() => console.log("✅ Connected to MongoDB"))
+  .then(() => console.log("Connected to MongoDB"))
   .catch((err) => {
-    console.error("❌ MongoDB connection error:", err);
+    console.error("MongoDB connection error:", err);
     process.exit(1);
   });
 
-// ----- MIDDLEWARE -----
 app.use(helmet());
 app.use(
   cors({
-    origin: "http://localhost:5173", // change to your frontend origin
+    origin: "http://localhost:5173",
     credentials: true
   })
 );
@@ -47,7 +45,6 @@ app.use(
   })
 );
 
-// simple helper to check auth
 function requireAuth(req, res, next) {
   if (!req.session.userId) {
     return res.status(401).json({ error: "Not authenticated" });
@@ -55,23 +52,19 @@ function requireAuth(req, res, next) {
   next();
 }
 
-// ----- ROUTES -----
-app.use("/api", authRoutes);          // /api/auth, /api/oauth2callback
-app.use("/api", requireAuth, scanRoutes);       // /api/scan
-app.use("/api", requireAuth, reminderRoutes);   // /api/reminders...
-app.use("/api", requireAuth, pushRoutes);       // /api/push/*
+app.use("/api", authRoutes);
+app.use("/api", requireAuth, scanRoutes);
+app.use("/api", requireAuth, reminderRoutes);
+app.use("/api", requireAuth, pushRoutes);
 
-// health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// ----- START SCHEDULER -----
 startScheduler();
 
-// ----- START SERVER -----
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Backend running at http://localhost:${PORT}`);
-  console.log(`🔑 OAuth login:  http://localhost:${PORT}/api/auth`);
+  console.log(`Backend running at http://localhost:${PORT}`);
+  console.log(`OAuth login:  http://localhost:${PORT}/api/auth`);
 });
