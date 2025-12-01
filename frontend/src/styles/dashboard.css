@@ -1,0 +1,22 @@
+.dashboard-root{ min-height:100vh; background:linear-gradient(180deg,#fff,#fbf8ff) }
+.dashboard-main{ max-width:1100px; margin:24px auto; padding:0 20px }
+.dashboard-header{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px }
+.actions{ display:flex; gap:8px; align-items:center }
+.tabs{ display:flex; gap:10px }
+.tab{
+  font-weight:500;
+  color:var(--muted);
+  padding:8px 12px;
+  background:transparent;
+  border-radius:8px;
+}
+.tab.active{
+  color: #2b1750;
+  font-weight:700;
+  border-bottom:3px solid var(--accent);
+  text-decoration: underline;
+  text-underline-offset:6px;
+  text-decoration-color: rgba(163,123,224,0.35);
+}
+.dashboard-content{ background:var(--card); padding:18px; border-radius:14px; box-shadow:var(--shadow) }
+.task-list{ display:flex; flex-direction:column; gap:10px; padding:6px 0 }

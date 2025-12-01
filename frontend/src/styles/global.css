@@ -1,0 +1,115 @@
+:root{
+  --bg: #faf7fb;
+  --card: #ffffff;
+  --muted: #8b8b9a;
+  --accent: #a37be0; /* lilac */
+  --accent-2: #e7b7f1; /* pinkish */
+  --danger: #ef6b6b;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(15,15,20,0.06);
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color-scheme: light;
+}
+
+
+*{box-sizing:border-box}
+html {
+  scroll-behavior: smooth;
+}
+
+html,body,#root{height:100%}
+body{
+  margin:0;
+  background: linear-gradient(180deg, #fff, var(--bg));
+  font-family: inherit;
+  color:#17202a;
+}
+
+/* buttons */
+.btn{
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+.btn.primary{
+  background: linear-gradient(90deg, var(--accent), #7e6be6);
+  color:white;
+  font-weight:600;
+}
+.btn.secondary{
+  background: transparent;
+  border: 1px solid #e8e6f2;
+  color: #333;
+}
+.btn.ghost{
+  background: transparent;
+}
+.btn.small{
+  padding:6px 8px;
+  font-size:13px;
+}
+.btn.danger{
+  background: var(--danger);
+  color: white;
+}
+
+/* layout helper */
+.container{
+  max-width:1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* small loader */
+.loader{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:4px solid #f0eef7;
+  border-top-color: var(--accent);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Modal basic */
+.modal-overlay{
+  position: fixed;
+  inset:0;
+  background: rgba(10,10,20,0.35);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+.modal-card{
+  width:640px;
+  max-width:95%;
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+.modal-form label{display:block; margin-top:10px; font-size:13px; color:var(--muted)}
+.modal-form input, .modal-form textarea{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #efeef7;
+  margin-top:6px;
+}
+
+/* small toast */
+.toast{
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color:white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  z-index: 2000;
+}
