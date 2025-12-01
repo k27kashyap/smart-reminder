@@ -19,11 +19,9 @@ export default function Dashboard() {
   const [deleteItem, setDeleteItem] = useState(null);
 
   useEffect(() => {
-    // register service worker and push (optional)
     if ("serviceWorker" in navigator && import.meta.env.VITE_VAPID_PUBLIC_KEY) {
       navigator.serviceWorker.register("/src/sw.js").then(async (reg) => {
         console.log("SW registered", reg);
-        // try to subscribe push (permission)
         try {
           const sub = await reg.pushManager.getSubscription();
           if (!sub) {
@@ -35,7 +33,6 @@ export default function Dashboard() {
                 userVisibleOnly: true,
                 applicationServerKey: convertedKey
               });
-              // register to backend
               await axiosClient.post("/push/register", { subscription: newSub });
             } else {
               console.log("Push permission not granted");
@@ -49,7 +46,7 @@ export default function Dashboard() {
 
     function urlBase64ToUint8Array(base64String) {
       const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-      const base64 = (base64String + padding).replace(/\-/g, "+").replace(/_/g, "/");
+      const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
       const rawData = window.atob(base64);
       const outputArray = new Uint8Array(rawData.length);
       for (let i = 0; i < rawData.length; ++i) {
@@ -66,6 +63,10 @@ export default function Dashboard() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleTaskAction = () => {
+    fetchReminders(tab, page);
   };
 
   return (
@@ -87,6 +88,7 @@ export default function Dashboard() {
                 reminders={reminders}
                 onEdit={(r) => setEditItem(r)}
                 onDelete={(r) => setDeleteItem(r)}
+                onAction={handleTaskAction}
               />
 
               <Pagination
