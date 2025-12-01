@@ -24,8 +24,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function logout() {
-    // clear session on backend by calling a logout endpoint if you implement one,
-    // or just clear local state and redirect to home.
     try {
       await axiosClient.post("/auth/logout").catch(() => {});
     } catch (e) {}

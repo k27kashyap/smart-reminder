@@ -15,7 +15,6 @@ export function ReminderProvider({ children }) {
     setLoading(true);
     try {
       const res = await axiosClient.get(`/reminders?filter=${selectedTab}`);
-      // server returns all; we paginate client-side
       const all = res.data || [];
       setTotalPages(Math.max(1, Math.ceil(all.length / perPage)));
       const start = (pageNum - 1) * perPage;
