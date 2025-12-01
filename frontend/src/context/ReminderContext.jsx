@@ -4,7 +4,7 @@ import axiosClient from "../api/axiosClient";
 export const ReminderContext = createContext();
 
 export function ReminderProvider({ children }) {
-  const [tab, setTab] = useState("upcoming"); // upcoming | completed | missed
+  const [tab, setTab] = useState("upcoming");
   const [reminders, setReminders] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);

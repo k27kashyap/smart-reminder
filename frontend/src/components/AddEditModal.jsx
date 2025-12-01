@@ -30,16 +30,15 @@ export default function AddEditModal({ item = null, onClose, onSaved }) {
       };
 
       if (item && item._id) {
-        // Edit
         await axiosClient.put(`/reminders/${item._id}`, payload);
       } else {
-        // Create
         await axiosClient.post("/reminders", payload);
       }
 
-      // call parent callback to refresh lists
+
       if (typeof onSaved === "function") onSaved();
       else window.location.reload();
+
 
       onClose && onClose();
     } catch (err) {
@@ -49,6 +48,7 @@ export default function AddEditModal({ item = null, onClose, onSaved }) {
       setSaving(false);
     }
   };
+
 
   return (
     <div className="modal-overlay">
