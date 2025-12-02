@@ -19,29 +19,38 @@ export default function Dashboard() {
   const [deleteItem, setDeleteItem] = useState(null);
 
   useEffect(() => {
+    // register service worker from site root (public/sw.js -> dist/sw.js in production)
     if ("serviceWorker" in navigator && import.meta.env.VITE_VAPID_PUBLIC_KEY) {
-      navigator.serviceWorker.register("/src/sw.js").then(async (reg) => {
-        console.log("SW registered", reg);
-        try {
-          const sub = await reg.pushManager.getSubscription();
-          if (!sub) {
-            const permission = await Notification.requestPermission();
-            if (permission === "granted") {
-              const vapidPublicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY;
-              const convertedKey = urlBase64ToUint8Array(vapidPublicKey);
-              const newSub = await reg.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: convertedKey
-              });
-              await axiosClient.post("/push/register", { subscription: newSub });
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then(async (reg) => {
+          console.log("SW registered", reg);
+          try {
+            const sub = await reg.pushManager.getSubscription();
+            if (!sub) {
+              const permission = await Notification.requestPermission();
+              if (permission === "granted") {
+                const vapidPublicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY;
+                const convertedKey = urlBase64ToUint8Array(vapidPublicKey);
+                const newSub = await reg.pushManager.subscribe({
+                  userVisibleOnly: true,
+                  applicationServerKey: convertedKey
+                });
+                await axiosClient.post("/push/register", { subscription: newSub });
+                console.log("Push subscription registered with backend");
+              } else {
+                console.log("Push permission not granted");
+              }
             } else {
-              console.log("Push permission not granted");
+              console.log("Existing push subscription found");
             }
+          } catch (err) {
+            console.error("Push subscribe error", err);
           }
-        } catch (err) {
-          console.error("Push subscribe error", err);
-        }
-      });
+        })
+        .catch((err) => {
+          console.warn("Service worker registration failed:", err);
+        });
     }
 
     function urlBase64ToUint8Array(base64String) {
@@ -54,6 +63,7 @@ export default function Dashboard() {
       }
       return outputArray;
     }
+    // empty deps: run once on mount
   }, []);
 
   const handleScan = async () => {
