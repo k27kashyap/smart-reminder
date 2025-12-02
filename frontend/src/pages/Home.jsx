@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/global.css";
 import "../styles/home.css";
-import heroImg from "../assets/hero.png";
+import heroImg from "/image6.png";
 import { FiArrowRight } from "react-icons/fi";
 
 export default function Home() {
@@ -30,11 +30,6 @@ export default function Home() {
       title: "Smart Detection",
       description: "AI-powered extraction of dates, companies, and application details"
     },
-    // {
-    //   icon: "🔔",
-    //   title: "Timely Reminders",
-    //   description: "Get notified before deadlines so you never miss an opportunity"
-    // },
     {
       icon: "📅",
       title: "Organized Dashboard",
